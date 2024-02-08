@@ -4,13 +4,13 @@ const bot = new TelegramBot("6488968964:AAH3BcpwYYZ6Pr6uUeUG3HJKfY_IExkIqGA", {
   polling: true,
 });
 
-const link = "[ТЫК](https://band.link/korni_single)";
+const link = "\n\n[ТЫК](https://band.link/korni_single)\n\n 👇";
 
 const options = {
   0: [
     { text: "Экспедиция Восход приветствует тебя на борту! 🌅" },
     {
-      text: `Ты уже сделал пресейв нашего нового трека? 🔥\n${link}`,
+      text: `Ты уже сделал пресейв нашего нового трека? 🔥${link}`,
       options: [
         [{ text: "Канеш! 😎", callback_data: "1" }],
         [{ text: "Еще не успел", callback_data: "2" }],
@@ -29,7 +29,7 @@ const options = {
   ],
   2: [
     {
-      text: `Нуштоооош ты? Давай уже сделаем\!\n${link}`,
+      text: `Нуштоооош ты? Давай уже сделаем\!${link}`,
     },
     {
       text: "Получилось?",
@@ -46,17 +46,17 @@ const options = {
     },
     {
       timeout: 5000,
-      text: "Мы рады официально посвятить тебя в наш клуб Любителей\nМузыки и Путешествий!\nСпасибо, что ты с нами\\. Держи набор стикеров\\.\\.\\.",
+      text: "Мы рады официально посвятить тебя в наш клуб Любителей Музыки и Путешествий!\nСпасибо, что ты с нами\\. Держи набор стикеров:",
     },
     {
       sticker:
-        "CAACAgIAAxkBAAO1ZcTTkf2Lefp9y4EGLhOwvwmrplgAAlYfAALjz_FJLv3YDXhXKrM0BA",
+        "CAACAgIAAxkBAAIBjmXFQoAdJ29Jhre9IFOhSxqD-UXdAAJySwAChVcoSj62Np6tS4iVNAQ",
       timeout: 6000,
     },
   ],
   4: [
     {
-      text: `У тебя все получится\!\n${link}`,
+      text: `У тебя все получится\!${link}`,
     },
     {
       text: "Ура?",
@@ -70,7 +70,7 @@ const options = {
   5: [
     {
       sticker:
-        "CAACAgIAAxkBAAPfZcTZUFogdOhYEMftFehWh2ve2n4AAow5AAJJq2lK_SwH-ak_syM0BA",
+        "CAACAgIAAxkBAAIBh2XFOQgUhJ-9iCKQcDlk-K2YQSo8AALBUAACvfMoSvxGzE_q7LBVNAQ",
     },
   ],
 };
