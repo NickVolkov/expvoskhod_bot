@@ -4,15 +4,18 @@ const bot = new TelegramBot("6488968964:AAH3BcpwYYZ6Pr6uUeUG3HJKfY_IExkIqGA", {
   polling: true,
 });
 
+const link = "[ТЫК](https://band.link/korni_single)";
+
 const options = {
   0: [
-    { text: "Экспедиция Восход приветствует тебя на борту!" },
+    { text: "Экспедиция Восход приветствует тебя на борту! 🌅" },
     {
-      text: "Ты уже сделал пресейв нашего нового трека?🔥 https://band.link/korni_single",
+      text: `Ты уже сделал пресейв нашего нового трека? 🔥\n${link}`,
       options: [
         [{ text: "Канеш! 😎", callback_data: "1" }],
         [{ text: "Еще не успел", callback_data: "2" }],
       ],
+      timeout: 2500,
     },
   ],
   1: [
@@ -26,7 +29,7 @@ const options = {
   ],
   2: [
     {
-      text: "Нуштоооош ты? Давай уже сделаем! https://band.link/korni_single",
+      text: `Нуштоооош ты? Давай уже сделаем\!\n${link}`,
     },
     {
       text: "Получилось?",
@@ -39,51 +42,76 @@ const options = {
   ],
   3: [
     {
-      timeout: 2000,
-      text: "Мы рады официально посвятить тебя в наш клуб Любителей\nМузыки и Путешествий!\nСпасибо, что ты с нами. Держи набор стикеров",
+      text: "Проверяю, секунду\\.\\.\\.",
     },
-    { text: "*сообщение с гивом стикерпаков*", timeout: 5000 },
+    {
+      timeout: 5000,
+      text: "Мы рады официально посвятить тебя в наш клуб Любителей\nМузыки и Путешествий!\nСпасибо, что ты с нами\\. Держи набор стикеров\\.\\.\\.",
+    },
+    {
+      sticker:
+        "CAACAgIAAxkBAAO1ZcTTkf2Lefp9y4EGLhOwvwmrplgAAlYfAALjz_FJLv3YDXhXKrM0BA",
+      timeout: 6000,
+    },
   ],
   4: [
     {
-      text: "У тебя все получится! https://band.link/korni_single",
+      text: `У тебя все получится\!\n${link}`,
     },
     {
       text: "Ура?",
       options: [
         [{ text: "Ура", callback_data: "3" }],
-        [{ text: "Нет, я передумал", callback_data: "5" }],
+        [{ text: "Нет, я передумал 💩", callback_data: "5" }],
       ],
       timeout: 10000,
     },
   ],
   5: [
     {
-      text: "бот присылает стикер «Мы увидимся когда в небе догорит звезда»",
+      sticker:
+        "CAACAgIAAxkBAAPfZcTZUFogdOhYEMftFehWh2ve2n4AAow5AAJJq2lK_SwH-ak_syM0BA",
     },
   ],
 };
 
-function releaseMessages(props, message, bot) {
-  for (option of props) {
-    const reply = [
+function getParameters(props, message) {
+  if (props.sticker) {
+    return [message.chat.id, props.sticker];
+  } else {
+    return [
       message.chat.id,
-      option.text,
+      props.text.replace(/\!/g, "\\!"),
       {
-        reply_to_message_id: message.message_id,
+        parse_mode: "MarkdownV2",
         reply_markup: {
           selective: true,
-          inline_keyboard: option.options,
+          inline_keyboard: props.options,
         },
       },
     ];
+  }
+}
+
+function releaseMessages(props, message, bot) {
+  for (option of props) {
+    const reply = getParameters(option, message);
+    const isSticker = !!option.sticker;
+
+    const send = () => {
+      if (isSticker) {
+        bot.sendSticker(...reply);
+      } else {
+        bot.sendMessage(...reply);
+      }
+    };
 
     if (option.timeout) {
       setTimeout(() => {
-        bot.sendMessage(...reply);
+        send();
       }, option.timeout);
     } else {
-      bot.sendMessage(...reply);
+      send();
     }
   }
 }
